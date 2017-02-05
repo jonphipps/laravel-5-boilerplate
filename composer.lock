@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4fb1124d447b6bbfbd7d9b97fbd1b14",
+    "content-hash": "d7c8ad3b1268bc1b713ee3366ac38a5c",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -658,34 +658,37 @@
         },
         {
             "name": "hieu-le/active",
-            "version": "2.3.1",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/letrunghieu/active.git",
-                "reference": "765c0a65c79b718935d59269039eeb460b92f1ed"
+                "reference": "cf6819c7561af5bf9993400530b827b2594b8549"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/letrunghieu/active/zipball/765c0a65c79b718935d59269039eeb460b92f1ed",
-                "reference": "765c0a65c79b718935d59269039eeb460b92f1ed",
+                "url": "https://api.github.com/repos/letrunghieu/active/zipball/cf6819c7561af5bf9993400530b827b2594b8549",
+                "reference": "cf6819c7561af5bf9993400530b827b2594b8549",
                 "shasum": ""
             },
             "require": {
-                "illuminate/http": "~5.0",
-                "illuminate/routing": "~5.0",
-                "illuminate/support": "~5.0",
+                "laravel/framework": "^5.0",
                 "php": ">=5.5.9"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
                 "mockery/mockery": "dev-master",
+                "orchestra/testbench": "^3.1",
                 "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "HieuLe\\Active\\": "src/"
-                }
+                    "HieuLe\\Active\\": "src/",
+                    "HieuLe\\ActiveTest\\": "tests/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -695,17 +698,17 @@
                 {
                     "name": "Hieu Le",
                     "email": "letrunghieu.cse09@gmail.com",
-                    "homepage": "http://www.hieule.info"
+                    "homepage": "https://www.hieule.info"
                 }
             ],
-            "description": "The helper class for Laravel 4 applications to get active class base on current route",
-            "homepage": "http://www.hieule.info/products/active-class-helper-laravel-4/",
+            "description": "The helper class for Laravel (4/5) applications to get active class base on current route",
+            "homepage": "https://www.hieule.info/tag/laravel-active/",
             "keywords": [
                 "active",
                 "laravel",
                 "routing"
             ],
-            "time": "2015-11-14T14:03:32+00:00"
+            "time": "2016-08-25T04:11:07+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3063,66 +3066,6 @@
                 "instantiate"
             ],
             "time": "2015-06-14T21:17:01+00:00"
-        },
-        {
-            "name": "filp/whoops",
-            "version": "2.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filp/whoops.git",
-                "reference": "2abce9d956589122c6443d6265f01cf7e9388e3c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/2abce9d956589122c6443d6265f01cf7e9388e3c",
-                "reference": "2abce9d956589122c6443d6265f01cf7e9388e3c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9 || ^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0",
-                "symfony/var-dumper": "^2.6 || ^3.0"
-            },
-            "suggest": {
-                "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
-                "whoops/soap": "Formats errors as SOAP responses"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Whoops\\": "src/Whoops/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
-                }
-            ],
-            "description": "php error handling for cool kids",
-            "homepage": "https://filp.github.io/whoops/",
-            "keywords": [
-                "error",
-                "exception",
-                "handling",
-                "library",
-                "whoops",
-                "zf2"
-            ],
-            "time": "2016-12-26T16:13:31+00:00"
         },
         {
             "name": "fzaninotto/faker",
