@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class AppServiceProvider.
@@ -47,6 +48,9 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() == 'production') {
             //URL::forceScheme('https');
         }
+
+        //set the default string length for l5.4
+        Schema::defaultStringLength(191);
     }
 
     /**
