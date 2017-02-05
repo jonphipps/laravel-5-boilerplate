@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Frontend\Forms;
+
 use Faker\Factory;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
@@ -61,14 +63,15 @@ class LoggedOutFormTest extends TestCase
                 ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                 ->see('Login')
                 ->seePageIs('/')
-                ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name'  => $name]);
+                ->assertDatabaseHas(config('access.users_table'), ['email' => $email, 'name'  => $name]);
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
             Notification::assertSentTo(
-                [$user], UserNeedsConfirmation::class
+                [$user],
+                UserNeedsConfirmation::class
             );
         } else {
             $this->visit('/register')
@@ -79,10 +82,10 @@ class LoggedOutFormTest extends TestCase
                 ->press('Register')
                 ->see('Dashboard')
                 ->seePageIs('/')
-                ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name'  => $name]);
+                ->assertDatabaseHas(config('access.users_table'), ['email' => $email, 'name'  => $name]);
         }
 
-        Event::assertFired(UserRegistered::class);
+        Event::assertDispatched(UserRegistered::class);
     }
 
     /**
@@ -129,7 +132,7 @@ class LoggedOutFormTest extends TestCase
             ->see($this->admin->name)
             ->see('Access Management');
 
-        Event::assertFired(UserLoggedIn::class);
+        Event::assertDispatched(UserLoggedIn::class);
     }
 
     /**
@@ -157,10 +160,11 @@ class LoggedOutFormTest extends TestCase
             ->press('Send Password Reset Link')
             ->seePageIs('password/reset')
             ->see('We have e-mailed your password reset link!')
-            ->seeInDatabase('password_resets', ['email' => $this->user->email]);
+            ->assertDatabaseHas('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo(
-            [$this->user], UserNeedsPasswordReset::class
+            [$this->user],
+            UserNeedsPasswordReset::class
         );
     }
 
