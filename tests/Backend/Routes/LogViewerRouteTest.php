@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\Routes;
 
-
 /**
  * Class LogViewerRouteTest.
  */

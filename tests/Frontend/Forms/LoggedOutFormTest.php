@@ -2,7 +2,6 @@
 
 namespace Tests\Frontend\Forms;
 
-
 use Faker\Factory;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;

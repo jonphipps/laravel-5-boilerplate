@@ -2,7 +2,6 @@
 
 namespace Tests\Frontend\Forms;
 
-
 /**
  * Class LoggedInFormTest.
  */

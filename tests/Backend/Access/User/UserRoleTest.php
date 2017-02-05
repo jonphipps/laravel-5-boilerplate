@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\Access\User;
 
-
 /**
  * Class UserRoleTest.
  */

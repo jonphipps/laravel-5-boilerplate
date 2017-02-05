@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\Access\Role;
 
-
 use App\Models\Access\Permission\Permission;
 
 class RolePermissionTest extends TestCase
