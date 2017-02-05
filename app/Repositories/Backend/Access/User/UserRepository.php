@@ -86,7 +86,6 @@ class UserRepository extends Repository
 
         DB::transaction(function () use ($user, $data, $roles) {
             if (parent::save($user)) {
-
                 //User Created, Validate Roles
                 if (! count($roles['assignees_roles'])) {
                     throw new GeneralException(trans('exceptions.backend.access.users.role_needed_create'));
@@ -245,11 +244,11 @@ class UserRepository extends Repository
         switch ($status) {
             case 0:
                 event(new UserDeactivated($user));
-            break;
+                break;
 
             case 1:
                 event(new UserReactivated($user));
-            break;
+                break;
         }
 
         if (parent::save($user)) {
