@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Frontend\Routes;
+
+
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
@@ -96,9 +99,9 @@ class LoggedOutRouteTest extends TestCase
         $this->visit('/account/confirm/'.$unconfirmed->confirmation_code)
             ->seePageIs('/login')
             ->see('Your account has been successfully confirmed!')
-            ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed'  => 1]);
+            ->assertDatabaseHas(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed'  => 1]);
 
-        Event::assertFired(UserConfirmed::class);
+        Event::assertDispatched(UserConfirmed::class);
     }
 
     /**

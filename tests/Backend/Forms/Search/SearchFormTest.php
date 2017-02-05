@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Backend\Forms\Search;
+
+
 /**
  * Class SearchFormTest.
  */
