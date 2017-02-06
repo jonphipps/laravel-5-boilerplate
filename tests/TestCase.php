@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use DatabaseTransactions;
-	use CreatesApplication;
+	  use CreatesApplication;
 
     /**
      * The base URL to use while testing the application.
@@ -54,6 +54,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected $userRole;
 
+    public static $setupDatabase = true;
 
     /**
      * Set up tests.
@@ -62,12 +63,12 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Set up the database
-        Artisan::call('migrate:refresh');
-        Artisan::call('db:seed');
-
         // Run the tests in English
         App::setLocale('en');
+
+        if (self::$setupDatabase) {
+            $this->setupDatabase();
+        }
 
         /*
          * Create class properties to be used in tests
@@ -79,4 +80,13 @@ abstract class TestCase extends BaseTestCase
         $this->executiveRole = Role::find(2);
         $this->userRole = Role::find(3);
     }
+    public function setupDatabase()
+    {
+        // Set up the database
+        Artisan::call('migrate:refresh');
+        Artisan::call('db:seed');
+
+        self::$setupDatabase = false;
+    }
+
 }
