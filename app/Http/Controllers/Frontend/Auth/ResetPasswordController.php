@@ -41,17 +41,17 @@ class ResetPasswordController extends Controller
 
     /**
      * Display the password reset view for the given token.
-     *
      * If no token is present, display the link request form.
      *
      * @param string|null $token
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm($token = null)
     {
-        return view('frontend.auth.passwords.reset')
-            ->withToken($token)
-            ->withEmail($this->user->getEmailForPasswordToken($token));
+      return view('frontend.auth.passwords.reset')->with([
+          'token' => $token,
+          'email' => $this->user->getEmailForPasswordToken($token),
+      ]);
     }
 }
