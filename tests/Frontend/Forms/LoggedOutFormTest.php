@@ -12,11 +12,12 @@ use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
+use Tests\BrowserKitTest;
 
 /**
  * Class LoggedOutFormTest.
  */
-class LoggedOutFormTest extends TestCase
+class LoggedOutFormTest extends BrowserKitTest
 {
     /**
      * Test that the errors work if nothing is filled in the registration form.
@@ -45,7 +46,7 @@ class LoggedOutFormTest extends TestCase
         Event::fake();
 
         // Create any needed resources
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
         $name = $faker->name;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
@@ -63,7 +64,7 @@ class LoggedOutFormTest extends TestCase
                 ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                 ->see('Login')
                 ->seePageIs('/')
-                ->assertDatabaseHas(config('access.users_table'), ['email' => $email, 'name'  => $name]);
+                ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name'  => $name]);
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
@@ -108,7 +109,8 @@ class LoggedOutFormTest extends TestCase
      */
     public function testLoginForm()
     {
-        // Make sure our events are fired
+      $this->setupDatabase();
+      // Make sure our events are fired
         Event::fake();
 
         Auth::logout();
@@ -160,7 +162,7 @@ class LoggedOutFormTest extends TestCase
             ->press('Send Password Reset Link')
             ->seePageIs('password/reset')
             ->see('We have e-mailed your password reset link!')
-            ->assertDatabaseHas('password_resets', ['email' => $this->user->email]);
+            ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo(
             [$this->user],

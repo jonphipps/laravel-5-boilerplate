@@ -2,10 +2,12 @@
 
 namespace Tests\Backend\Routes;
 
+use Tests\BrowserKitTest;
+
 /**
  * Class LogViewerRouteTest.
  */
-class LogViewerRouteTest extends TestCase
+class LogViewerRouteTest extends BrowserKitTest
 {
     public function testLogViewerDashboard()
     {

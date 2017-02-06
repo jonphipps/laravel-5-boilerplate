@@ -2,6 +2,8 @@
 
 namespace Tests\Backend\Access;
 
+use Tests\TestCase;
+
 /**
  * Class AccessHelperTest.
  */
