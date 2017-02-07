@@ -179,23 +179,23 @@ class LoggedOutFormTest extends BrowserKitTest
         $this->createPasswordResetToken($token);
 
         $this->visit('password/reset/'.$token)
-            ->see($this->user->email)
+            ->type('', 'email')
             ->type('', 'password')
             ->type('', 'password_confirmation')
             ->press('Reset Password')
-            ->see('The password field is required.');
-    }
+            ->see('The password field is required.')
+            ->see('The email field is required.');
+   }
 
     /**
      * Test that the password reset form works and logs the user back in.
      */
     public function testResetPasswordForm()
     {
-        $token = 'abcdefghijklmnopqrstuvwxyz1234567890';
-        $this->createPasswordResetToken($token);
+        $token = $this->app->make('auth.password.broker')->createToken($this->user );
 
         $this->visit('password/reset/'.$token)
-            ->see($this->user->email)
+            ->type($this->user->email, 'email')
             ->type('12345678', 'password')
             ->type('12345678', 'password_confirmation')
             ->press('Reset Password')
