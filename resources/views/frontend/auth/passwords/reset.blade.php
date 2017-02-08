@@ -23,14 +23,10 @@
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             {{ Form::label('email', trans('validation.attributes.frontend.email'), ['class' => 'col-md-4 control-label']) }}
                             <div class="col-md-6">
-                                {{ Form::input('email', 'email', $email, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.email')]) }}
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                                <p class="form-control-static">{{ $email }}</p>
+                                {{ Form::input('hidden', 'email', $email, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.email')]) }}
                             </div><!--col-md-6-->
-                        </div><!--form-group-->
+                    </div><!--form-group-->
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}

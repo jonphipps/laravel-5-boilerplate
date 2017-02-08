@@ -195,7 +195,7 @@ class LoggedOutFormTest extends BrowserKitTest
         $token = $this->app->make('auth.password.broker')->createToken($this->user );
 
         $this->visit('password/reset/'.$token)
-            ->type($this->user->email, 'email')
+            ->see($this->user->email)
             ->type('12345678', 'password')
             ->type('12345678', 'password_confirmation')
             ->press('Reset Password')
