@@ -2,6 +2,7 @@
 
 namespace Tests\Frontend\Forms;
 
+use App\Models\Access\User\User;
 use Tests\BrowserKitTest;
 
 /**
@@ -9,12 +10,20 @@ use Tests\BrowserKitTest;
  */
 class LoggedInFormTest extends BrowserKitTest
 {
-    /**
+  public function setUp()
+  {
+    parent::setUp();
+    $this->setupDatabase();
+    $this->user = User::find(3);
+  }
+
+
+  /**
      * Test that the errors work if nothing is filled in the update account form.
      */
     public function testUpdateProfileRequiredFields()
     {
-        if (config('access.users.change_email')) {
+      if (config('access.users.change_email')) {
             $this->actingAs($this->user)
                 ->visit('/account')
                 ->type('', 'name')
