@@ -116,11 +116,11 @@ class UserRouteTest extends BrowserKitTest
             ->visit('/admin/access/user/'.$this->user->id.'/mark/0')
             ->seePageIs('/admin/access/user/deactivated')
             ->see('The user was successfully updated.')
-            ->seeInDatabase('users', ['id' => $this->user->id, 'status' => 0])
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'status' => 0])
             ->visit('/admin/access/user/'.$this->user->id.'/mark/1')
             ->seePageIs('/admin/access/user')
             ->see('The user was successfully updated.')
-            ->seeInDatabase('users', ['id' => $this->user->id, 'status' => 1]);
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'status' => 1]);
 
         Event::assertDispatched(UserDeactivated::class);
         Event::assertDispatched(UserReactivated::class);
@@ -135,11 +135,11 @@ class UserRouteTest extends BrowserKitTest
         $this->user->save();
 
         $this->actingAs($this->admin)
-            ->dontSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+            ->dontSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null])
             ->visit('/admin/access/user/'.$this->user->id.'/restore')
             ->seePageIs('/admin/access/user')
             ->see('The user was successfully restored.')
-            ->seeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null]);
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
 
         Event::assertDispatched(UserRestored::class);
     }
@@ -147,42 +147,42 @@ class UserRouteTest extends BrowserKitTest
     public function testUserIsDeletedBeforeBeingRestored()
     {
         $this->actingAs($this->admin)
-            ->seeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null])
             ->visit('/admin/access/user')
             ->visit('/admin/access/user/'.$this->user->id.'/restore')
             ->seePageIs('/admin/access/user')
             ->see('This user is not deleted so it can not be restored.')
-            ->seeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null]);
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
     }
 
     public function testPermanentlyDeleteUser()
     {
-      $this->setupDatabase();
+      //$this->setupDatabase();
       // Make sure our events are fired
         Event::fake();
 
         $this->actingAs($this->admin)
             ->delete('/admin/access/user/'.$this->user->id)
-            ->dontSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+            ->dontSeeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null])
             ->visit('/admin/access/user/'.$this->user->id.'/delete')
             ->seePageIs('/admin/access/user/deleted')
             ->see('The user was deleted permanently.')
-            ->dontSeeInDatabase('users', ['id' => $this->user->id]);
+            ->dontSeeInDatabase($this->userTable, ['id' => $this->user->id]);
 
         Event::assertDispatched(UserPermanentlyDeleted::class);
     }
 
     public function testUserIsDeletedBeforeBeingPermanentlyDeleted()
     {
-      $this->setupDatabase();
+      //$this->setupDatabase();
       $this->actingAs($this->admin);
       $this->user = $this->admin;
-      $this->seeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+      $this->seeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null])
             ->visit('/admin/access/user')
             ->visit('/admin/access/user/'.$this->user->id.'/delete')
             ->seePageIs('/admin/access/user')
             ->see('This user must be deleted first before it can be destroyed permanently.')
-            ->seeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null]);
+            ->seeInDatabase($this->userTable, ['id' => $this->user->id, 'deleted_at' => null]);
     }
 
     public function testCantNotDeactivateSelf()
