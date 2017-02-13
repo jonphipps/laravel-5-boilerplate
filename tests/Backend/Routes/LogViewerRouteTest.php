@@ -3,7 +3,7 @@
 /**
  * Class LogViewerRouteTest.
  */
-class LogViewerRouteTest extends TestCase
+class LogViewerRouteTest extends BrowserKitTestCase
 {
     public function testLogViewerDashboard()
     {

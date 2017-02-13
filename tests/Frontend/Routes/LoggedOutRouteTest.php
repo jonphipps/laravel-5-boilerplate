@@ -10,7 +10,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 /**
  * Class LoggedOutRouteTest.
  */
-class LoggedOutRouteTest extends TestCase
+class LoggedOutRouteTest extends BrowserKitTestCase
 {
     /**
      * User Logged Out Frontend.

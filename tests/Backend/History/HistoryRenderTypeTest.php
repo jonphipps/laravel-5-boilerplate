@@ -5,7 +5,7 @@ use App\Repositories\Backend\History\Facades\History;
 /**
  * Class HistoryRenderTypeTest.
  */
-class HistoryRenderTypeTest extends TestCase
+class HistoryRenderTypeTest extends BrowserKitTestCase
 {
     public function testViewOnlyHasHistoryOfType()
     {

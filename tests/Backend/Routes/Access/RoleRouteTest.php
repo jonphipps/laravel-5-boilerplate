@@ -3,7 +3,7 @@
 /**
  * Class RoleRouteTest.
  */
-class RoleRouteTest extends TestCase
+class RoleRouteTest extends BrowserKitTestCase
 {
     public function testRolesIndex()
     {

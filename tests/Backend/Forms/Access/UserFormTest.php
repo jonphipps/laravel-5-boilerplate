@@ -12,7 +12,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 /**
  * Class UserFormTest.
  */
-class UserFormTest extends TestCase
+class UserFormTest extends BrowserKitTestCase
 {
     public function testCreateUserRequiredFields()
     {

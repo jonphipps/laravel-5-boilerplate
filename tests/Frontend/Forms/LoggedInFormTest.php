@@ -3,7 +3,7 @@
 /**
  * Class LoggedInFormTest.
  */
-class LoggedInFormTest extends TestCase
+class LoggedInFormTest extends BrowserKitTestCase
 {
     /**
      * Test that the errors work if nothing is filled in the update account form.

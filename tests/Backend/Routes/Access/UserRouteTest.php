@@ -10,7 +10,7 @@ use App\Events\Backend\Access\User\UserPermanentlyDeleted;
 /**
  * Class UserRouteTest.
  */
-class UserRouteTest extends TestCase
+class UserRouteTest extends BrowserKitTestCase
 {
     public function testActiveUsers()
     {

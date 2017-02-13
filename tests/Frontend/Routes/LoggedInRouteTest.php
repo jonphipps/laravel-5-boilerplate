@@ -6,7 +6,7 @@ use App\Events\Frontend\Auth\UserLoggedOut;
 /**
  * Class LoggedInRouteTest.
  */
-class LoggedInRouteTest extends TestCase
+class LoggedInRouteTest extends BrowserKitTestCase
 {
     /**
      * Test the homepage works and the dashboard button appears.

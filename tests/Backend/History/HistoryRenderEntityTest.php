@@ -6,7 +6,7 @@ use App\Repositories\Backend\History\Facades\History;
 /**
  * Class HistoryRenderEntityTest.
  */
-class HistoryRenderEntityTest extends TestCase
+class HistoryRenderEntityTest extends BrowserKitTestCase
 {
     public function testViewOnlyHasHistoryOfEntity()
     {

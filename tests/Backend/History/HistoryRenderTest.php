@@ -5,7 +5,7 @@ use App\Repositories\Backend\History\Facades\History;
 /**
  * Class HistoryRenderTest.
  */
-class HistoryRenderTest extends TestCase
+class HistoryRenderTest extends BrowserKitTestCase
 {
     public function testDashboardDisplaysHistory()
     {

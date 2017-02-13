@@ -14,7 +14,7 @@ use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
 /**
  * Class LoggedOutFormTest.
  */
-class LoggedOutFormTest extends TestCase
+class LoggedOutFormTest extends BrowserKitTestCase
 {
     /**
      * Test that the errors work if nothing is filled in the registration form.
