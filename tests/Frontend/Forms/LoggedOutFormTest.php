@@ -68,7 +68,8 @@ class LoggedOutFormTest extends TestCase
 
             // Check that the user was sent the confirmation email
             Notification::assertSentTo(
-                [$user], UserNeedsConfirmation::class
+                [$user],
+                UserNeedsConfirmation::class
             );
         } else {
             $this->visit('/register')
@@ -160,7 +161,8 @@ class LoggedOutFormTest extends TestCase
             ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo(
-            [$this->user], UserNeedsPasswordReset::class
+            [$this->user],
+            UserNeedsPasswordReset::class
         );
     }
 
