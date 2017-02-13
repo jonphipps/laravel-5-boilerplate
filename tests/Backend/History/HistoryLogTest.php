@@ -5,7 +5,7 @@ use App\Repositories\Backend\History\Facades\History;
 /**
  * Class HistoryLogTest.
  */
-class HistoryLogTest extends TestCase
+class HistoryLogTest extends BrowserKitTestCase
 {
     public function testHistoryLogByTypeNameFunction()
     {

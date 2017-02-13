@@ -3,7 +3,7 @@
 /**
  * Class DashboardRouteTest.
  */
-class DashboardRouteTest extends TestCase
+class DashboardRouteTest extends BrowserKitTestCase
 {
     public function testAdminDashboard()
     {

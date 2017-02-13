@@ -2,7 +2,7 @@
 
 use App\Models\Access\Permission\Permission;
 
-class RolePermissionTest extends TestCase
+class RolePermissionTest extends BrowserKitTestCase
 {
     public function testSavePermissionsToRole()
     {

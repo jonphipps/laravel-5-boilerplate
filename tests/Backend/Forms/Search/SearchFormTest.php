@@ -3,7 +3,7 @@
 /**
  * Class SearchFormTest.
  */
-class SearchFormTest extends TestCase
+class SearchFormTest extends BrowserKitTestCase
 {
     public function testSearchPageWithNoQuery()
     {

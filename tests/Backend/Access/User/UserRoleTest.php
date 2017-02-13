@@ -3,7 +3,7 @@
 /**
  * Class UserRoleTest.
  */
-class UserRoleTest extends TestCase
+class UserRoleTest extends BrowserKitTestCase
 {
     public function testAttachRoleToUserById()
     {

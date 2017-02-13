@@ -12,7 +12,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 /**
  * Class UserFormTest.
  */
-class UserFormTest extends TestCase
+class UserFormTest extends BrowserKitTestCase
 {
     public function testCreateUserRequiredFields()
     {
@@ -109,7 +109,8 @@ class UserFormTest extends TestCase
 
         // Check that the user was sent the confirmation email
         Notification::assertSentTo(
-            [$user], UserNeedsConfirmation::class
+            [$user],
+            UserNeedsConfirmation::class
         );
 
         Event::assertFired(UserCreated::class);

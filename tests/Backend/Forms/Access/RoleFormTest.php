@@ -10,7 +10,7 @@ use App\Events\Backend\Access\Role\RoleUpdated;
 /**
  * Class RoleFormTest.
  */
-class RoleFormTest extends TestCase
+class RoleFormTest extends BrowserKitTestCase
 {
     public function testCreateRoleRequiredFieldsAll()
     {
