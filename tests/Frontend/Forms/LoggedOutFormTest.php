@@ -42,10 +42,10 @@ class LoggedOutFormTest extends BrowserKitTestCase
         Event::fake();
 
         // Create any needed resources
-        $faker   =Faker\Factory::create();
-        $name    =$faker->name;
-        $email   =$faker->safeEmail;
-        $password=$faker->password(8);
+        $faker = Faker\Factory::create();
+        $name = $faker->name;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
 
         // Check if confirmation required is on or off
         if (config('access.users.confirm_email')) {
@@ -60,10 +60,10 @@ class LoggedOutFormTest extends BrowserKitTestCase
                  ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                  ->see('Login')
                  ->seePageIs('/')
-                 ->seeInDatabase(config('access.users_table'), ['email'=>$email, 'name'=>$name]);
+                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
 
             // Get the user that was inserted into the database
-            $user=User::where('email', $email)->first();
+            $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
             Notification::assertSentTo([$user],
@@ -77,7 +77,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
                  ->press('Register')
                  ->see('Dashboard')
                  ->seePageIs('/')
-                 ->seeInDatabase(config('access.users_table'), ['email'=>$email, 'name'=>$name]);
+                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
         }
 
         Event::assertDispatched(UserRegistered::class);
@@ -155,7 +155,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->press('Send Password Reset Link')
              ->seePageIs('password/reset')
              ->see('We have e-mailed your password reset link!')
-             ->seeInDatabase('password_resets', ['email'=>$this->user->email]);
+             ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
         Notification::assertSentTo([$this->user],
             UserNeedsPasswordReset::class);
@@ -166,7 +166,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testResetPasswordRequiredFields()
     {
-        $token=$this->app->make('auth.password.broker')->createToken($this->user);
+        $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
         $this->visit('password/reset/'.$token)
              ->see($this->user->email)
@@ -181,7 +181,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testResetPasswordForm()
     {
-        $token=$this->app->make('auth.password.broker')->createToken($this->user);
+        $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
         $this->visit('password/reset/'.$token)
              ->see($this->user->email)
@@ -198,7 +198,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testUnconfirmedUserCanNotLogIn()
     {
         // Create default user to test with
-        $unconfirmed=factory(User::class)->states('unconfirmed')->create();
+        $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
         $this->visit('/login')
@@ -215,7 +215,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testInactiveUserCanNotLogIn()
     {
         // Create default user to test with
-        $inactive=factory(User::class)->states('confirmed', 'inactive')->create();
+        $inactive = factory(User::class)->states('confirmed', 'inactive')->create();
         $inactive->attachRole(3); //User
 
         $this->visit('/login')
@@ -249,9 +249,9 @@ class LoggedOutFormTest extends BrowserKitTestCase
     private function createPasswordResetToken($token)
     {
         DB::table('password_resets')->insert([
-            'email'     =>$this->user->email,
-            'token'     =>$token,
-            'created_at'=>\Carbon\Carbon::now(),
+            'email'      => $this->user->email,
+            'token'      => $token,
+            'created_at' => \Carbon\Carbon::now(),
         ]);
 
         return $token;

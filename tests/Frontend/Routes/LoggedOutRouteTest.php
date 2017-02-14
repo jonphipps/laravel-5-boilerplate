@@ -81,13 +81,13 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         Event::fake();
 
         // Create default user to test with
-        $unconfirmed=factory(User::class)->states('unconfirmed')->create();
+        $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
         $this->visit('/account/confirm/'.$unconfirmed->confirmation_code)
              ->seePageIs('/login')
              ->see('Your account has been successfully confirmed!')
-             ->seeInDatabase(config('access.users_table'), ['email'=>$unconfirmed->email, 'confirmed'=>1]);
+             ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed' => 1]);
 
         Event::assertDispatched(UserConfirmed::class);
     }

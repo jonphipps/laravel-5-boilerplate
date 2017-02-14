@@ -46,10 +46,10 @@ class UserFormTest extends BrowserKitTestCase
         Event::fake();
 
         // Create any needed resources
-        $faker   =Faker\Factory::create();
-        $name    =$faker->name;
-        $email   =$faker->safeEmail;
-        $password=$faker->password(8);
+        $faker = Faker\Factory::create();
+        $name = $faker->name;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
@@ -65,9 +65,9 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase('users', ['name'=>$name, 'email'=>$email, 'status'=>1, 'confirmed'=>1])
-             ->seeInDatabase('role_user', ['user_id'=>4, 'role_id'=>2])
-             ->seeInDatabase('role_user', ['user_id'=>4, 'role_id'=>3]);
+             ->seeInDatabase('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1])
+             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 2])
+             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 3]);
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -81,10 +81,10 @@ class UserFormTest extends BrowserKitTestCase
         Notification::fake();
 
         // Create any needed resources
-        $faker   =Faker\Factory::create();
-        $name    =$faker->name;
-        $email   =$faker->safeEmail;
-        $password=$faker->password(8);
+        $faker = Faker\Factory::create();
+        $name = $faker->name;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
@@ -100,12 +100,12 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase('users', ['name'=>$name, 'email'=>$email, 'status'=>1, 'confirmed'=>0])
-             ->seeInDatabase('role_user', ['user_id'=>4, 'role_id'=>2])
-             ->seeInDatabase('role_user', ['user_id'=>4, 'role_id'=>3]);
+             ->seeInDatabase('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0])
+             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 2])
+             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 3]);
 
         // Get the user that was inserted into the database
-        $user=User::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
         // Check that the user was sent the confirmation email
         Notification::assertSentTo([$user],
@@ -158,14 +158,14 @@ class UserFormTest extends BrowserKitTestCase
              ->see('The user was successfully updated.')
              ->seeInDatabase('users',
                  [
-                     'id'       =>$this->user->id,
-                     'name'     =>'User New',
-                     'email'    =>'user2@user.com',
-                     'status'   =>0,
-                     'confirmed'=>0,
+                     'id'        => $this->user->id,
+                     'name'      => 'User New',
+                     'email'     => 'user2@user.com',
+                     'status'    => 0,
+                     'confirmed' => 0,
                  ])
-             ->seeInDatabase('role_user', ['user_id'=>$this->user->id, 'role_id'=>2])
-             ->notSeeInDatabase('role_user', ['user_id'=>$this->user->id, 'role_id'=>3]);
+             ->seeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 2])
+             ->notSeeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 3]);
 
         Event::assertDispatched(UserUpdated::class);
     }
@@ -178,7 +178,7 @@ class UserFormTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
              ->delete('/admin/access/user/'.$this->user->id)
              ->assertRedirectedTo('/admin/access/user/deleted')
-             ->notSeeInDatabase('users', ['id'=>$this->user->id, 'deleted_at'=>null]);
+             ->notSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null]);
 
         Event::assertDispatched(UserDeleted::class);
     }
@@ -189,8 +189,8 @@ class UserFormTest extends BrowserKitTestCase
              ->visit('/admin/access/user')
              ->delete('/admin/access/user/'.$this->admin->id)
              ->assertRedirectedTo('/admin/access/user')
-             ->seeInDatabase('users', ['id'=>$this->admin->id, 'deleted_at'=>null])
-             ->seeInSession(['flash_danger'=>'You can not delete yourself.']);
+             ->seeInDatabase('users', ['id' => $this->admin->id, 'deleted_at' => null])
+             ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
     }
 
     public function testChangeUserPasswordRequiredFields()
@@ -210,7 +210,7 @@ class UserFormTest extends BrowserKitTestCase
         // Make sure our events are fired
         Event::fake();
 
-        $password='87654321';
+        $password = '87654321';
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/'.$this->user->id.'/password/change')
