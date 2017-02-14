@@ -104,8 +104,10 @@ class LoggedOutRouteTest extends BrowserKitTestCase
              ->seePageIs('/login')
              ->see('A new confirmation e-mail has been sent to the address on file.');
 
-        Notification::assertSentTo([$this->user],
-            UserNeedsConfirmation::class);
+        Notification::assertSentTo(
+            [$this->user],
+            UserNeedsConfirmation::class
+        );
     }
 
     /**

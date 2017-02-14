@@ -46,8 +46,10 @@ class LoggedInFormTest extends BrowserKitTestCase
                  ->press('update-profile')
                  ->seePageIs('/account')
                  ->see('Profile successfully updated.')
-                 ->seeInDatabase(config('access.users_table'),
-                     ['email' => '2_'.$this->user->email, 'name' => $this->user->name.'_'.$rand]);
+                 ->seeInDatabase(
+                     config('access.users_table'),
+                     ['email' => '2_'.$this->user->email, 'name' => $this->user->name.'_'.$rand]
+                 );
         } else {
             $this->actingAs($this->user)
                  ->visit('/account')

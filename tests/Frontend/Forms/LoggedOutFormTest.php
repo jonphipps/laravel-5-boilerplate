@@ -67,8 +67,10 @@ class LoggedOutFormTest extends BrowserKitTestCase
             $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
-            Notification::assertSentTo([$user],
-                UserNeedsConfirmation::class);
+            Notification::assertSentTo(
+                [$user],
+                UserNeedsConfirmation::class
+            );
         } else {
             $this->visit('/register')
                  ->type($name, 'name')
@@ -158,8 +160,10 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->see('We have e-mailed your password reset link!')
              ->seeInDatabase('password_resets', ['email' => $this->user->email]);
 
-        Notification::assertSentTo([$this->user],
-            UserNeedsPasswordReset::class);
+        Notification::assertSentTo(
+            [$this->user],
+            UserNeedsPasswordReset::class
+        );
     }
 
     /**

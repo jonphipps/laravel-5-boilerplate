@@ -108,8 +108,10 @@ class UserFormTest extends BrowserKitTestCase
         $user = User::where('email', $email)->first();
 
         // Check that the user was sent the confirmation email
-        Notification::assertSentTo([$user],
-            UserNeedsConfirmation::class);
+        Notification::assertSentTo(
+            [$user],
+            UserNeedsConfirmation::class
+        );
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -156,14 +158,16 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Update')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully updated.')
-             ->seeInDatabase('users',
+             ->seeInDatabase(
+                 'users',
                  [
                      'id'        => $this->user->id,
                      'name'      => 'User New',
                      'email'     => 'user2@user.com',
                      'status'    => 0,
                      'confirmed' => 0,
-                 ])
+                 ]
+             )
              ->seeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 3]);
 
