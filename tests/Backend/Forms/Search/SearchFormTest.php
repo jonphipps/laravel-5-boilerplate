@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\Backend\Forms\Search;
-use Tests\TestCase;
 
+use Tests\TestCase;
 
 /**
  * Class SearchFormTest.

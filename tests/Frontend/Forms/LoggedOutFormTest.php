@@ -2,7 +2,6 @@
 
 namespace Tests\Frontend\Forms;
 
-
 use Tests\TestCase;
 use Faker\Factory;
 use App\Models\Access\User\User;

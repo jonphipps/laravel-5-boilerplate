@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\Routes\Access;
 
-
 use Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;

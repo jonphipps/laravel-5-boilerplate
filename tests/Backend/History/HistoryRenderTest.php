@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\History;
 
-
 use Tests\TestCase;
 use App\Repositories\Backend\History\Facades\History;
 

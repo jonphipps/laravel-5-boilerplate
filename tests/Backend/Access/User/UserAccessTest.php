@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\Backend\Access\User;
-use Tests\TestCase;
 
+use Tests\TestCase;
 
 /**
  * Class UserAccessTest.

@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\Backend\Routes\Access;
-use Tests\TestCase;
 
+use Tests\TestCase;
 
 /**
  * Class RoleRouteTest.

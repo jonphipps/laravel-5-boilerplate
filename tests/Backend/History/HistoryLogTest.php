@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\Backend\History;
-use Tests\TestCase;
 
+use Tests\TestCase;
 
 /**
  * Class HistoryLogTest.

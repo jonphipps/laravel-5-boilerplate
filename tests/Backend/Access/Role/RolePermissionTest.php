@@ -2,7 +2,6 @@
 
 namespace Tests\Backend\Access\Role;
 
-
 use Tests\TestCase;
 use App\Models\Access\Permission\Permission;
 

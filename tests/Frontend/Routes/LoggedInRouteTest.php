@@ -2,7 +2,6 @@
 
 namespace Tests\Frontend\Routes;
 
-
 use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use App\Events\Frontend\Auth\UserLoggedOut;

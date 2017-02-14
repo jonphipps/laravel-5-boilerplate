@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\Frontend\Forms;
-use Tests\TestCase;
 
+use Tests\TestCase;
 
 /**
  * Class LoggedInFormTest.

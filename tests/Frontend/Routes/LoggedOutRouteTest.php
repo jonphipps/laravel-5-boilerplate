@@ -2,7 +2,6 @@
 
 namespace Tests\Frontend\Routes;
 
-
 use Tests\TestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
