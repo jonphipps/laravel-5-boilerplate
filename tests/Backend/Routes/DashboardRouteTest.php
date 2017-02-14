@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\Routes;
+
+use Tests\TestCase;
+
 /**
  * Class DashboardRouteTest.
  */
-class DashboardRouteTest extends BrowserKitTestCase
+class DashboardRouteTest extends TestCase
 {
     public function testAdminDashboard()
     {

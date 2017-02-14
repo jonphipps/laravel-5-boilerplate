@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Frontend\Forms;
+
+use Tests\TestCase;
 use Faker\Factory;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
@@ -14,14 +17,14 @@ use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
 /**
  * Class LoggedOutFormTest.
  */
-class LoggedOutFormTest extends BrowserKitTestCase
+class LoggedOutFormTest extends TestCase
 {
     /**
      * Test that the errors work if nothing is filled in the registration form.
      */
     public function testRegistrationRequiredFields()
     {
-        $this->visit('/register')
+        $response = $this->get('/register')
              ->type('', 'name')
              ->type('', 'email')
              ->type('', 'password')
@@ -52,7 +55,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         if (config('access.users.confirm_email')) {
             Notification::fake();
 
-            $this->visit('/register')
+            $response = $this->get('/register')
                  ->type($name, 'name')
                  ->type($email, 'email')
                  ->type($password, 'password')
@@ -61,16 +64,18 @@ class LoggedOutFormTest extends BrowserKitTestCase
                  ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
                  ->see('Login')
                  ->seePageIs('/')
-                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
+                 ->assertDatabaseHas(config('access.users_table'), ['email' => $email, 'name' => $name]);
 
             // Get the user that was inserted into the database
             $user = User::where('email', $email)->first();
 
             // Check that the user was sent the confirmation email
-            Notification::assertSentTo([$user],
-                UserNeedsConfirmation::class);
+            Notification::assertSentTo(
+                [$user],
+                UserNeedsConfirmation::class
+            );
         } else {
-            $this->visit('/register')
+            $response = $this->get('/register')
                  ->type($name, 'name')
                  ->type($email, 'email')
                  ->type($password, 'password')
@@ -78,7 +83,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
                  ->press('Register')
                  ->see('Dashboard')
                  ->seePageIs('/')
-                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
+                 ->assertDatabaseHas(config('access.users_table'), ['email' => $email, 'name' => $name]);
         }
 
         Event::assertDispatched(UserRegistered::class);
@@ -89,7 +94,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testLoginRequiredFields()
     {
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type('', 'email')
              ->type('', 'password')
              ->press('Login')
@@ -110,7 +115,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         Auth::logout();
 
         //User Test
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type($this->user->email, 'email')
              ->type('1234', 'password')
              ->press('Login')
@@ -120,7 +125,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         Auth::logout();
 
         //Admin Test
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type($this->admin->email, 'email')
              ->type('1234', 'password')
              ->press('Login')
@@ -136,7 +141,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testForgotPasswordRequiredFields()
     {
-        $this->visit('/password/reset')
+        $response = $this->get('/password/reset')
              ->type('', 'email')
              ->press('Send Password Reset Link')
              ->seePageIs('/password/reset')
@@ -151,15 +156,17 @@ class LoggedOutFormTest extends BrowserKitTestCase
     {
         Notification::fake();
 
-        $this->visit('password/reset')
+        $response = $this->get('password/reset')
              ->type($this->user->email, 'email')
              ->press('Send Password Reset Link')
              ->seePageIs('password/reset')
              ->see('We have e-mailed your password reset link!')
-             ->seeInDatabase('password_resets', ['email' => $this->user->email]);
+             ->assertDatabaseHas('password_resets', ['email' => $this->user->email]);
 
-        Notification::assertSentTo([$this->user],
-            UserNeedsPasswordReset::class);
+        Notification::assertSentTo(
+            [$this->user],
+            UserNeedsPasswordReset::class
+        );
     }
 
     /**
@@ -169,7 +176,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     {
         $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
-        $this->visit('password/reset/'.$token)
+        $response = $this->get('password/reset/'.$token)
              ->see($this->user->email)
              ->type('', 'password')
              ->type('', 'password_confirmation')
@@ -184,7 +191,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
     {
         $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
-        $this->visit('password/reset/'.$token)
+        $response = $this->get('password/reset/'.$token)
              ->see($this->user->email)
              ->type('12345678', 'password')
              ->type('12345678', 'password_confirmation')
@@ -202,7 +209,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type($unconfirmed->email, 'email')
              ->type('secret', 'password')
              ->press('Login')
@@ -219,7 +226,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         $inactive = factory(User::class)->states('confirmed', 'inactive')->create();
         $inactive->attachRole(3); //User
 
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type($inactive->email, 'email')
              ->type('secret', 'password')
              ->press('Login')
@@ -232,7 +239,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testInvalidLoginCredentials()
     {
-        $this->visit('/login')
+        $response = $this->get('/login')
              ->type($this->user->email, 'email')
              ->type('9s8gy8s9diguh4iev', 'password')
              ->press('Login')

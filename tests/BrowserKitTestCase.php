@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Models\Access\Role\Role;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;

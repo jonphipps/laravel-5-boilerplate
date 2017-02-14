@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\Access;
+
+use Tests\TestCase;
+
 /**
  * Class AccessHelperTest.
  */
-class AccessHelperTest extends BrowserKitTestCase
+class AccessHelperTest extends TestCase
 {
     public function testAccessUser()
     {

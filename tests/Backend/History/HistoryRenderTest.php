@@ -1,11 +1,14 @@
 <?php
 
+namespace Tests\Backend\History;
+
+use Tests\TestCase;
 use App\Repositories\Backend\History\Facades\History;
 
 /**
  * Class HistoryRenderTest.
  */
-class HistoryRenderTest extends BrowserKitTestCase
+class HistoryRenderTest extends TestCase
 {
     public function testDashboardDisplaysHistory()
     {
@@ -19,7 +22,7 @@ class HistoryRenderTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->visit('/admin/dashboard')
+        $response = $this->get('/admin/dashboard')
              ->see('<strong>'.$this->admin->name.'</strong> '.trans('history.backend.users.created').$this->user->name);
     }
 
@@ -35,7 +38,7 @@ class HistoryRenderTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->visit('/admin/access/user')
+        $response = $this->get('/admin/access/user')
              ->see('<strong>'.$this->admin->name.'</strong> '.trans('history.backend.users.created').$this->user->name);
     }
 
@@ -51,7 +54,7 @@ class HistoryRenderTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->visit('/admin/access/user/3')
+        $response = $this->get('/admin/access/user/3')
              ->see('<strong>'.$this->admin->name.'</strong> '.trans('history.backend.users.created').$this->user->name);
     }
 }
