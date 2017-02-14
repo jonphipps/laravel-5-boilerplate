@@ -134,8 +134,8 @@ class RoleFormTest extends TestCase
         Event::fake();
 
         $this->actingAs($this->admin)
-             ->notSeeInDatabase('permission_role', ['permission_id' => 2, 'role_id' => 3])
-             ->notSeeInDatabase('permission_role', ['permission_id' => 3, 'role_id' => 3])
+             ->assertDatabaseMissing('permission_role', ['permission_id' => 2, 'role_id' => 3])
+             ->assertDatabaseMissing('permission_role', ['permission_id' => 3, 'role_id' => 3])
              ->visit('/admin/access/role/3/edit')
              ->check('permissions[2]')
              ->check('permissions[3]')
@@ -168,7 +168,7 @@ class RoleFormTest extends TestCase
              ->assertDatabaseHas('roles', ['id' => $role->id])
              ->delete('/admin/access/role/'.$role->id)
              ->assertRedirectedTo('/admin/access/role')
-             ->notSeeInDatabase('roles', ['id' => $role->id])
+             ->assertDatabaseMissing('roles', ['id' => $role->id])
              ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
         Event::assertDispatched(RoleDeleted::class);
@@ -186,9 +186,9 @@ class RoleFormTest extends TestCase
              ->visit('/admin/access/role')
              ->delete('/admin/access/role/2')
              ->assertRedirectedTo('/admin/access/role')
-             ->notSeeInDatabase('roles', ['id' => 2])
-             ->notSeeInDatabase('permission_role', ['permission_id' => 1, 'role_id' => 2])
-             ->notSeeInDatabase('permission_role', ['permission_id' => 2, 'role_id' => 2])
+             ->assertDatabaseMissing('roles', ['id' => 2])
+             ->assertDatabaseMissing('permission_role', ['permission_id' => 1, 'role_id' => 2])
+             ->assertDatabaseMissing('permission_role', ['permission_id' => 2, 'role_id' => 2])
              ->seeInSession(['flash_success' => 'The role was successfully deleted.']);
 
         Event::assertDispatched(RoleDeleted::class);

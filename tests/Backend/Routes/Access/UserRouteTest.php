@@ -127,7 +127,7 @@ class UserRouteTest extends TestCase
         $this->user->save();
 
         $this->actingAs($this->admin)
-             ->notSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+             ->assertDatabaseMissing('users', ['id' => $this->user->id, 'deleted_at' => null])
              ->visit('/admin/access/user/'.$this->user->id.'/restore')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully restored.')
@@ -154,11 +154,11 @@ class UserRouteTest extends TestCase
 
         $this->actingAs($this->admin)
              ->delete('/admin/access/user/'.$this->user->id)
-             ->notSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null])
+             ->assertDatabaseMissing('users', ['id' => $this->user->id, 'deleted_at' => null])
              ->visit('/admin/access/user/'.$this->user->id.'/delete')
              ->seePageIs('/admin/access/user/deleted')
              ->see('The user was deleted permanently.')
-             ->notSeeInDatabase('users', ['id' => $this->user->id]);
+             ->assertDatabaseMissing('users', ['id' => $this->user->id]);
 
         Event::assertDispatched(UserPermanentlyDeleted::class);
     }

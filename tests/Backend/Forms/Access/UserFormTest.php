@@ -172,7 +172,7 @@ class UserFormTest extends TestCase
                  ]
              )
              ->assertDatabaseHas('role_user', ['user_id' => $this->user->id, 'role_id' => 2])
-             ->notSeeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 3]);
+             ->assertDatabaseMissing('role_user', ['user_id' => $this->user->id, 'role_id' => 3]);
 
         Event::assertDispatched(UserUpdated::class);
     }
@@ -185,7 +185,7 @@ class UserFormTest extends TestCase
         $this->actingAs($this->admin)
              ->delete('/admin/access/user/'.$this->user->id)
              ->assertRedirectedTo('/admin/access/user/deleted')
-             ->notSeeInDatabase('users', ['id' => $this->user->id, 'deleted_at' => null]);
+             ->assertDatabaseMissing('users', ['id' => $this->user->id, 'deleted_at' => null]);
 
         Event::assertDispatched(UserDeleted::class);
     }

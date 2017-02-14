@@ -7,12 +7,14 @@ use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 /**
  * Class TestCase.
  */
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
+abstract class TestCase extends BaseTestCase
 {
+    use CreatesApplication;
     use DatabaseTransactions;
 
     /**
@@ -51,20 +53,6 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var
      */
     protected $userRole;
-
-    /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
-
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
-        return $app;
-    }
 
     /**
      * Set up tests.
