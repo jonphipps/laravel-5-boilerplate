@@ -2,9 +2,9 @@
 
 use App\Models\Access\Role\Role;
 use App\Models\Access\User\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Class TestCase.
@@ -18,7 +18,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://l5boilerplate.dev';
+    protected $baseUrl='http://l5boilerplate.dev';
 
     /**
      * @var
@@ -57,7 +57,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
-        $app = require __DIR__.'/../bootstrap/app.php';
+        $app=require __DIR__.'/../bootstrap/app.php';
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
@@ -81,11 +81,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         /*
          * Create class properties to be used in tests
          */
-        $this->admin = User::find(1);
-        $this->executive = User::find(2);
-        $this->user = User::find(3);
-        $this->adminRole = Role::find(1);
-        $this->executiveRole = Role::find(2);
-        $this->userRole = Role::find(3);
+        $this->admin        =User::find(1);
+        $this->executive    =User::find(2);
+        $this->user         =User::find(3);
+        $this->adminRole    =Role::find(1);
+        $this->executiveRole=Role::find(2);
+        $this->userRole     =Role::find(3);
     }
 }
