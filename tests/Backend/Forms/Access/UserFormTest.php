@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Backend\Forms\Access;
+
+
+use Tests\TestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -12,7 +16,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 /**
  * Class UserFormTest.
  */
-class UserFormTest extends BrowserKitTestCase
+class UserFormTest extends TestCase
 {
     public function testCreateUserRequiredFields()
     {
@@ -65,9 +69,9 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1])
-             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 2])
-             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 3]);
+             ->assertDatabaseHas('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1])
+             ->assertDatabaseHas('role_user', ['user_id' => 4, 'role_id' => 2])
+             ->assertDatabaseHas('role_user', ['user_id' => 4, 'role_id' => 3]);
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -100,9 +104,9 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0])
-             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 2])
-             ->seeInDatabase('role_user', ['user_id' => 4, 'role_id' => 3]);
+             ->assertDatabaseHas('users', ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0])
+             ->assertDatabaseHas('role_user', ['user_id' => 4, 'role_id' => 2])
+             ->assertDatabaseHas('role_user', ['user_id' => 4, 'role_id' => 3]);
 
         // Get the user that was inserted into the database
         $user = User::where('email', $email)->first();
@@ -158,7 +162,7 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Update')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully updated.')
-             ->seeInDatabase(
+             ->assertDatabaseHas(
                  'users',
                  [
                      'id'        => $this->user->id,
@@ -168,7 +172,7 @@ class UserFormTest extends BrowserKitTestCase
                      'confirmed' => 0,
                  ]
              )
-             ->seeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 2])
+             ->assertDatabaseHas('role_user', ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase('role_user', ['user_id' => $this->user->id, 'role_id' => 3]);
 
         Event::assertDispatched(UserUpdated::class);
@@ -193,7 +197,7 @@ class UserFormTest extends BrowserKitTestCase
              ->visit('/admin/access/user')
              ->delete('/admin/access/user/'.$this->admin->id)
              ->assertRedirectedTo('/admin/access/user')
-             ->seeInDatabase('users', ['id' => $this->admin->id, 'deleted_at' => null])
+             ->assertDatabaseHas('users', ['id' => $this->admin->id, 'deleted_at' => null])
              ->seeInSession(['flash_danger' => 'You can not delete yourself.']);
     }
 

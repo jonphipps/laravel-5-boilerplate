@@ -1,13 +1,17 @@
 <?php
 
+namespace Tests\Backend\Access\User;
+use Tests\TestCase;
+
+
 /**
  * Class UserAccessTest.
  */
-class UserAccessTest extends BrowserKitTestCase
+class UserAccessTest extends TestCase
 {
     public function testUserCantAccessAdminDashboard()
     {
-        $this->visit('/')
+        $response = $this->get('/')
              ->actingAs($this->user)
              ->visit('/admin/dashboard')
              ->seePageIs('/')
@@ -16,7 +20,7 @@ class UserAccessTest extends BrowserKitTestCase
 
     public function testExecutiveCanAccessAdminDashboard()
     {
-        $this->visit('/')
+        $response = $this->get('/')
              ->actingAs($this->executive)
              ->visit('/admin/dashboard')
              ->seePageIs('/admin/dashboard')
@@ -25,7 +29,7 @@ class UserAccessTest extends BrowserKitTestCase
 
     public function testExecutiveCantAccessManageRoles()
     {
-        $this->visit('/')
+        $response = $this->get('/')
              ->actingAs($this->executive)
              ->visit('/admin/dashboard')
              ->seePageIs('/admin/dashboard')

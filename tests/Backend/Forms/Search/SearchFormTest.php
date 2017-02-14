@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\Forms\Search;
+use Tests\TestCase;
+
+
 /**
  * Class SearchFormTest.
  */
-class SearchFormTest extends BrowserKitTestCase
+class SearchFormTest extends TestCase
 {
     public function testSearchPageWithNoQuery()
     {

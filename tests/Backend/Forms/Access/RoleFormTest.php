@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Backend\Forms\Access;
+
+
+use Tests\TestCase;
 use App\Models\Access\Role\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -10,7 +14,7 @@ use App\Events\Backend\Access\Role\RoleUpdated;
 /**
  * Class RoleFormTest.
  */
-class RoleFormTest extends BrowserKitTestCase
+class RoleFormTest extends TestCase
 {
     public function testCreateRoleRequiredFieldsAll()
     {
@@ -48,7 +52,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/role')
              ->see('The role was successfully created.')
-             ->seeInDatabase('roles', ['name' => 'Test Role', 'all' => 1, 'sort' => 999]);
+             ->assertDatabaseHas('roles', ['name' => 'Test Role', 'all' => 1, 'sort' => 999]);
 
         Event::assertDispatched(RoleCreated::class);
     }
@@ -68,9 +72,9 @@ class RoleFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/role')
              ->see('The role was successfully created.')
-             ->seeInDatabase('roles', ['name' => 'Test Role', 'all' => 0])
-             ->seeInDatabase('permission_role', ['permission_id' => 2, 'role_id' => 4])
-             ->seeInDatabase('permission_role', ['permission_id' => 3, 'role_id' => 4]);
+             ->assertDatabaseHas('roles', ['name' => 'Test Role', 'all' => 0])
+             ->assertDatabaseHas('permission_role', ['permission_id' => 2, 'role_id' => 4])
+             ->assertDatabaseHas('permission_role', ['permission_id' => 3, 'role_id' => 4]);
 
         Event::assertDispatched(RoleCreated::class);
     }
@@ -120,7 +124,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->press('Update')
              ->seePageIs('/admin/access/role')
              ->see('The role was successfully updated.')
-             ->seeInDatabase('roles', ['id' => 1, 'name' => 'Administrator Edited', 'sort' => 123]);
+             ->assertDatabaseHas('roles', ['id' => 1, 'name' => 'Administrator Edited', 'sort' => 123]);
 
         Event::assertDispatched(RoleUpdated::class);
     }
@@ -139,8 +143,8 @@ class RoleFormTest extends BrowserKitTestCase
              ->press('Update')
              ->seePageIs('/admin/access/role')
              ->see('The role was successfully updated.')
-             ->seeInDatabase('permission_role', ['permission_id' => 2, 'role_id' => 3])
-             ->seeInDatabase('permission_role', ['permission_id' => 3, 'role_id' => 3]);
+             ->assertDatabaseHas('permission_role', ['permission_id' => 2, 'role_id' => 3])
+             ->assertDatabaseHas('permission_role', ['permission_id' => 3, 'role_id' => 3]);
 
         Event::assertDispatched(RoleUpdated::class);
     }
@@ -162,7 +166,7 @@ class RoleFormTest extends BrowserKitTestCase
         $role = factory(Role::class)->create();
 
         $this->actingAs($this->admin)
-             ->seeInDatabase('roles', ['id' => $role->id])
+             ->assertDatabaseHas('roles', ['id' => $role->id])
              ->delete('/admin/access/role/'.$role->id)
              ->assertRedirectedTo('/admin/access/role')
              ->notSeeInDatabase('roles', ['id' => $role->id])
@@ -197,7 +201,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->visit('/admin/access/role')
              ->delete('/admin/access/role/1')
              ->assertRedirectedTo('/admin/access/role')
-             ->seeInDatabase('roles', ['id' => 1, 'name' => 'Administrator'])
+             ->assertDatabaseHas('roles', ['id' => 1, 'name' => 'Administrator'])
              ->seeInSession(['flash_danger' => 'You can not delete the Administrator role.']);
     }
 
@@ -207,7 +211,7 @@ class RoleFormTest extends BrowserKitTestCase
              ->visit('/admin/access/role')
              ->delete('/admin/access/role/2')
              ->assertRedirectedTo('/admin/access/role')
-             ->seeInDatabase('roles', ['id' => 2])
+             ->assertDatabaseHas('roles', ['id' => 2])
              ->seeInSession(['flash_danger' => 'You can not delete a role with associated users.']);
     }
 }

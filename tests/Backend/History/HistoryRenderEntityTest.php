@@ -1,11 +1,15 @@
 <?php
 
+namespace Tests\Backend\History;
+
+
+use Tests\TestCase;
 use App\Models\Access\User\User;
 
 /**
  * Class HistoryRenderEntityTest.
  */
-class HistoryRenderEntityTest extends BrowserKitTestCase
+class HistoryRenderEntityTest extends TestCase
 {
     public function testViewOnlyHasHistoryOfEntity()
     {
@@ -61,7 +65,7 @@ class HistoryRenderEntityTest extends BrowserKitTestCase
             ->withClass('bg-red')
             ->log();
 
-        $this->visit('/admin/access/user/'.$this->user->id)
+        $response = $this->get('/admin/access/user/'.$this->user->id)
              ->see('<strong>'.$this->admin->name.'</strong> created user '.$this->user->name)
              ->see('<strong>'.$this->admin->name.'</strong> updated user '.$this->user->name)
              ->see('<strong>'.$this->admin->name.'</strong> deleted user '.$this->user->name)

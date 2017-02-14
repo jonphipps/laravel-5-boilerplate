@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Frontend\Forms;
+use Tests\TestCase;
+
+
 /**
  * Class LoggedInFormTest.
  */
-class LoggedInFormTest extends BrowserKitTestCase
+class LoggedInFormTest extends TestCase
 {
     /**
      * Test that the errors work if nothing is filled in the update account form.
@@ -46,7 +50,7 @@ class LoggedInFormTest extends BrowserKitTestCase
                  ->press('update-profile')
                  ->seePageIs('/account')
                  ->see('Profile successfully updated.')
-                 ->seeInDatabase(
+                 ->assertDatabaseHas(
                      config('access.users_table'),
                      ['email' => '2_'.$this->user->email, 'name' => $this->user->name.'_'.$rand]
                  );
@@ -58,7 +62,7 @@ class LoggedInFormTest extends BrowserKitTestCase
                  ->press('update-profile')
                  ->seePageIs('/account')
                  ->see('Profile successfully updated.')
-                 ->seeInDatabase(config('access.users_table'), ['name' => $this->user->name.'_'.$rand]);
+                 ->assertDatabaseHas(config('access.users_table'), ['name' => $this->user->name.'_'.$rand]);
         }
     }
 

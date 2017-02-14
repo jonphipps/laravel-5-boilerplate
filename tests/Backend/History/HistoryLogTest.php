@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\History;
+use Tests\TestCase;
+
+
 /**
  * Class HistoryLogTest.
  */
-class HistoryLogTest extends BrowserKitTestCase
+class HistoryLogTest extends TestCase
 {
     public function testHistoryLogByTypeNameFunction()
     {
@@ -17,7 +21,7 @@ class HistoryLogTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->seeInDatabase(
+        $this->assertDatabaseHas(
             'history',
             [
                 'type_id'   => 1,
@@ -44,7 +48,7 @@ class HistoryLogTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->seeInDatabase(
+        $this->assertDatabaseHas(
             'history',
             [
                 'type_id'   => 1,

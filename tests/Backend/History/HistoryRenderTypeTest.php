@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\History;
+use Tests\TestCase;
+
+
 /**
  * Class HistoryRenderTypeTest.
  */
-class HistoryRenderTypeTest extends BrowserKitTestCase
+class HistoryRenderTypeTest extends TestCase
 {
     public function testViewOnlyHasHistoryOfType()
     {
@@ -57,7 +61,7 @@ class HistoryRenderTypeTest extends BrowserKitTestCase
             ->withClass('bg-red')
             ->log();
 
-        $this->visit('/admin/access/user')
+        $response = $this->get('/admin/access/user')
              ->see('<strong>'.$this->admin->name.'</strong> created user '.$this->user->name)
              ->see('<strong>'.$this->admin->name.'</strong> updated user '.$this->user->name)
              ->see('<strong>'.$this->admin->name.'</strong> deleted user '.$this->user->name)

@@ -1,9 +1,13 @@
 <?php
 
+namespace Tests\Backend\Routes;
+use Tests\TestCase;
+
+
 /**
  * Class LogViewerRouteTest.
  */
-class LogViewerRouteTest extends BrowserKitTestCase
+class LogViewerRouteTest extends TestCase
 {
     public function testLogViewerDashboard()
     {

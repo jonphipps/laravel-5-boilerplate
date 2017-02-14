@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Frontend\Routes;
+
+
+use Tests\TestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
@@ -10,7 +14,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 /**
  * Class LoggedOutRouteTest.
  */
-class LoggedOutRouteTest extends BrowserKitTestCase
+class LoggedOutRouteTest extends TestCase
 {
     /**
      * User Logged Out Frontend.
@@ -21,7 +25,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testHomePage()
     {
-        $this->visit('/')->assertResponseOk();
+        $response = $this->get('/')->assertResponseOk();
     }
 
     /**
@@ -29,7 +33,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testMacroPage()
     {
-        $this->visit('/macros')->see('Macro Examples');
+        $response = $this->get('/macros')->see('Macro Examples');
     }
 
     /**
@@ -37,7 +41,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testLoginPage()
     {
-        $this->visit('/login')->see('Login');
+        $response = $this->get('/login')->see('Login');
     }
 
     /**
@@ -45,7 +49,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testRegisterPage()
     {
-        $this->visit('/register')->see('Register');
+        $response = $this->get('/register')->see('Register');
     }
 
     /**
@@ -53,7 +57,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testForgotPasswordPage()
     {
-        $this->visit('password/reset')->see('Reset Password');
+        $response = $this->get('password/reset')->see('Reset Password');
     }
 
     /**
@@ -61,7 +65,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testDashboardPageLoggedOut()
     {
-        $this->visit('/dashboard')->seePageIs('/login');
+        $response = $this->get('/dashboard')->seePageIs('/login');
     }
 
     /**
@@ -69,7 +73,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testAccountPageLoggedOut()
     {
-        $this->visit('/account')->seePageIs('/login');
+        $response = $this->get('/account')->seePageIs('/login');
     }
 
     /**
@@ -84,10 +88,10 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
-        $this->visit('/account/confirm/'.$unconfirmed->confirmation_code)
+        $response = $this->get('/account/confirm/'.$unconfirmed->confirmation_code)
              ->seePageIs('/login')
              ->see('Your account has been successfully confirmed!')
-             ->seeInDatabase(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed' => 1]);
+             ->assertDatabaseHas(config('access.users_table'), ['email' => $unconfirmed->email, 'confirmed' => 1]);
 
         Event::assertDispatched(UserConfirmed::class);
     }
@@ -100,7 +104,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
     {
         Notification::fake();
 
-        $this->visit('/account/confirm/resend/'.$this->user->id)
+        $response = $this->get('/account/confirm/resend/'.$this->user->id)
              ->seePageIs('/login')
              ->see('A new confirmation e-mail has been sent to the address on file.');
 
@@ -115,7 +119,7 @@ class LoggedOutRouteTest extends BrowserKitTestCase
      */
     public function testLanguageSwitcher()
     {
-        $this->visit('lang/es')->see('Registrarse')->assertSessionHas('locale', 'es');
+        $response = $this->get('lang/es')->see('Registrarse')->assertSessionHas('locale', 'es');
 
         App::setLocale('en');
     }
